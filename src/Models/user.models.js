@@ -16,7 +16,7 @@ const UserSchema = mongoose.Schema({
         required:true,
         lowercase:true
     },
-    userID:{
+    userId:{
         type:String,
         minLength:4,
         required:true,

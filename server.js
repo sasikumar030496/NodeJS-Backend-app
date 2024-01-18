@@ -3,14 +3,15 @@
 const express = require("express") // importing libraries
 const mongoose = require("mongoose") // importing mongoose library
 // var {productsData} = require("./data") // importing modules / destructing required because we are fetching the data of the variable productsData
-var bodyParser = require('body-parser') //importing body-parser to parse request body data to JSON
+var bodyParser = require('body-parser'); //importing body-parser to parse request body data to JSON
+const authRoutes = require("./src/Routes/auth.routes");
+const productRoutes = require("./src/Routes/product.routes");// Importing product(app)routes
+const movieRoutes = require("./src/Routes/movie.routes");
 
 const app = express(); // creating app
 app.use(bodyParser.json()) //using bodyparser which parses any data to json and saves to req.body
 
-const ProductRoutes = require("./src/Routes/product.routes") // Importing product(app)routes 
-
-// Setting port for the application
+ // Setting port for the application
 app.listen(3000, ()=>{
     console.log("Your application is running on port 3000");
 }) // setting port for the app
@@ -80,5 +81,6 @@ mongoose.connect(dbURL).then(()=>{
     console.log("Unable to connect to Database ",error);
 }) // connecting to MongoDB 
 
-
-ProductRoutes(app)
+productRoutes(app)
+authRoutes(app)
+movieRoutes(app)

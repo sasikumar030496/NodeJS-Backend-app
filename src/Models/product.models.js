@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose")
 
 // ProductSchema is blueprint of product
 const ProductSchema = mongoose.Schema({

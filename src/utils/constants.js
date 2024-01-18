@@ -7,10 +7,17 @@ const userTypes = {
 const userStatus = {
     PENDING:"PENDING",
     BLOCKED:"BLOCKED",
-    REJECTED:"REJECTED"
+    REJECTED:"REJECTED",
+    APPROVED:"APPROVED"
+}
+const releaseStatus = {
+    RELEASED:"RELEASED",
+    UNRELEASED:"UNRELEASED",
+    BLOCKED:"BLOCKED"
 }
 
 module.exports ={
     userTypes,
-    userStatus
+    userStatus,
+    releaseStatus
 }
