@@ -1,4 +1,5 @@
 const User = require("../Models/user.models")
+const { SECRET } = require("../configs/auth.config")
 const { userStatus, userTypes } = require("../utils/constants")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
@@ -38,7 +39,7 @@ exports.signIn = async (req, res)=>{
     if(!isValidPassword){
         return res.status(400).send({message:"Password is not valid"})
     }
-    var token = jwt.sign({userId:userId},"mysecretkey", {expiresIn:'1hr'})
+    var token = jwt.sign({userId:userId},SECRET, {expiresIn:'1hr'})
     return res.status(200).send({
         name: 'Sasi',
         email: 'suamsai143@gmail.com',

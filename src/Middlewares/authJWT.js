@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken")
 const { userTypes } = require("../utils/constants")
 const User = require("../Models/user.models")
+const { SECRET } = require("../configs/auth.config")
 
 const verifyToken = (req, res, next)=>{
     
@@ -8,7 +9,7 @@ const verifyToken = (req, res, next)=>{
     if(!token){
         return res.status(401).send({message:"User not authenticated"})
     }
-    jwt.verify(token,"mysecretkey", async (err, payload)=>{ 
+    jwt.verify(token,SECRET, async (err, payload)=>{ 
         if(err){
             return res.status(403).send({message:"Token is invalid"})
         }
