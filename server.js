@@ -11,6 +11,9 @@ const productRoutes = require("./src/Routes/product.routes");// Importing produc
 const movieRoutes = require("./src/Routes/movie.routes");
 const { PORT } = require("./src/configs/server.config");
 const { DBURL } = require("./src/configs/db.config");
+const theatreRoutes = require("./src/Routes/theatre.routes");
+const bookingRoutes = require("./src/Routes/booking.routes");
+const paymentRoutes = require("./src/Routes/payment.routes");
 
 const app = express(); // creating app
 app.use(cors()) // cors usage allows to accept API request from different origin, here if we don't mention any origin it accepts request from all the origins
@@ -89,3 +92,6 @@ mongoose.connect(DBURL).then(()=>{
 productRoutes(app)
 authRoutes(app)
 movieRoutes(app)
+theatreRoutes(app)
+bookingRoutes(app)
+paymentRoutes(app)

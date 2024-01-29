@@ -42,6 +42,6 @@ const movieSchema = mongoose.Schema({
     }
 })
 
-const Movie = mongoose.model("Movies", movieSchema);  // creating movieModel from schema
+const Movie = mongoose.model("Movies", movieSchema);  // creating movieModel from schema, here Movies is collection in MongoDB
 
 module.exports = Movie;
