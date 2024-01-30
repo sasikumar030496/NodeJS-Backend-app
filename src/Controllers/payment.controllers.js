@@ -1,6 +1,8 @@
 const Booking = require("../Models/booking.models")
 const Payment = require("../Models/payment.models")
+const { bookingNotification } = require("../scripts/email.scripts")
 const { paymentStatus, bookingStatus } = require("../utils/constants")
+const { sendMail } = require("../utils/notificationUtils")
 
 
 exports.createPayment = async (req,res)=>{
@@ -11,6 +13,9 @@ exports.createPayment = async (req,res)=>{
         if(payment.status === paymentStatus.SUCCESS){
             savedBooking.status = bookingStatus.COMPLETED
             await savedBooking.save(); // Make sure you save the booking once you modify
+            //Sending mail notification
+            const {subject, html} = bookingNotification(req.user, savedBooking) // passing user and booking details to create mail template and return
+            sendMail([req.user.email], subject, html) // sending mail
             return res.status(200).send({message:"Payment successful"})
         }
         return res.status(500).send({message:"Payment still in Pending"})
