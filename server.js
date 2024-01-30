@@ -21,7 +21,7 @@ app.use(bodyParser.json()) //using bodyparser which parses any data to json and 
 
  // Setting port for the application
 app.listen(PORT, ()=>{
-    console.log("Your application is running on port 3000");
+    console.log(`Your application is running on port ${PORT}`);
 }) // setting port for the app
 
 //Sample GET request 
