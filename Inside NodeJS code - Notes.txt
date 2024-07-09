@@ -1,20 +1,43 @@
-const {
-  createProduct,
-  getProducts,
-  getProduct,
-  updateProduct,
-  deleteProduct,
-} = require("../Controllers/product.controllers");
+Swagger is used for API documentation and can also be used alternative to POSTMAN
 
-module.exports = (app) => {
-  app.post("/ecom/api/v1/products", createProduct),
-    app.get("/ecom/api/v1/products", getProducts),
-    app.get("/ecom/api/v1/products/:id", getProduct),
-    app.put("/ecom/api/v1/products/:id", updateProduct),
-    app.delete("/ecom/api/v1/products/:id", deleteProduct);
+1). Install below packages inside Node application
+		npm i swagger-jsdoc@6.0.0
+		npm i swagger-ui-express
+2). Write below code inside server.js (NodeJS backend app)
+//Swagger related code
+
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Swagger API documentation for NodeJS and MongoDB project",
+      version: "1.0.0",
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: [
+    "./src/Routes/auth.routes.js",
+    "./src/Routes/product.routes.js",
+    "./src/Routes/booking.routes.js",
+    "./src/Routes/movie.routes.js",
+    "./src/Routes/payment.routes.js",
+    "./src/Routes/theatre.routes.js",
+  ],
 };
+const swaggerSpec = swaggerJSDoc(options);
 
-// "ecom/api/v1/products" - this is correct way to define API routes "appName/api/versionID/routeName:params"
+const app = express(); // creating app
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
+3). Write below code in API file(product.routes.js)
+
 // Swagger code for creating schema for products(components/schema is mandatory)
 /**
  * @swagger
@@ -147,3 +170,12 @@ module.exports = (app) => {
  *              description: Product Deleted
  *
  */
+
+
+Important Notes : 
+	==> You can create multiple servers and apis in options
+	==> Give tab space after each line for clear code reading
+	==> @swagger is mandatory (Syntax: /** code */)
+	==> You can write multiple responses like success and failure as well
+	==> If response is in array give type as array and for items in array you need to specify type and its properties
+	==> You can create seperate components as above and can use them using $ref: '#components/schema/Products'

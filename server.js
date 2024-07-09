@@ -1,13 +1,13 @@
 // Libraries used - express, nodemon, body-parser
 
-const express = require("express") // importing libraries
-const mongoose = require("mongoose") // importing mongoose library
+const express = require("express"); // importing libraries
+const mongoose = require("mongoose"); // importing mongoose library
 // var {productsData} = require("./data") // importing modules / destructing required because we are fetching the data of the variable productsData
-var bodyParser = require('body-parser'); //importing body-parser to parse request body data to JSON
+var bodyParser = require("body-parser"); //importing body-parser to parse request body data to JSON
 require("dotenv").config(); // This will enable us to use environmental variables
-var cors = require("cors")
+var cors = require("cors");
 const authRoutes = require("./src/Routes/auth.routes");
-const productRoutes = require("./src/Routes/product.routes");// Importing product(app)routes
+const productRoutes = require("./src/Routes/product.routes"); // Importing product(app)routes
 const movieRoutes = require("./src/Routes/movie.routes");
 const { PORT } = require("./src/configs/server.config");
 const { DBURL } = require("./src/configs/db.config");
@@ -15,16 +15,55 @@ const theatreRoutes = require("./src/Routes/theatre.routes");
 const bookingRoutes = require("./src/Routes/booking.routes");
 const paymentRoutes = require("./src/Routes/payment.routes");
 
+//Swagger related code
+// Swagger start
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Swagger API documentation for NodeJS and MongoDB project",
+      version: "1.0.0",
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: [
+    "./src/Routes/auth.routes.js",
+    "./src/Routes/product.routes.js",
+    "./src/Routes/booking.routes.js",
+    "./src/Routes/movie.routes.js",
+    "./src/Routes/payment.routes.js",
+    "./src/Routes/theatre.routes.js",
+  ],
+};
+const swaggerSpec = swaggerJSDoc(options);
+
 const app = express(); // creating app
-app.use(cors()) // cors usage allows to accept API request from different origin, here if we don't mention any origin it accepts request from all the origins
-app.use(bodyParser.json()) //using bodyparser which parses any data to json and saves to req.body
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
- // Setting port for the application
-app.listen(PORT, ()=>{
-    console.log(`Your application is running on port ${PORT}`);
-}) // setting port for the app
+//Swagger end
 
-//Sample GET request 
+//Swagger using yaml
+//Swagger start
+// const { swaggerServe, swaggerSetup } = require("./swaggerConfig");
+// app.use("/api-docs/yaml", swaggerServe, swaggerSetup);
+//Swagger end
+
+app.use(cors()); // cors usage allows to accept API request from different origin, here if we don't mention any origin it accepts request from all the origins
+app.use(bodyParser.json()); //using bodyparser which parses any data to json and saves to req.body
+
+// Setting port for the application
+app.listen(PORT, () => {
+  console.log(`Your application is running on port ${PORT}`);
+}); // setting port for the app
+
+//Sample GET request
 // app.get("/", (req,res)=>{
 //     return res.send("This is HomePage")
 // }) // creating routes for the app
@@ -81,17 +120,19 @@ app.listen(PORT, ()=>{
 
 // MongoDB and Mongoose Intergration and API creation in One file
 
-  
 // DBURL is the URL fetched from env var which got from cloud.mongodb and providing username and password
-mongoose.connect(DBURL).then(()=>{
+mongoose
+  .connect(DBURL)
+  .then(() => {
     console.log("Successfully connected to Database");
-}).catch((error)=>{
-    console.log("Unable to connect to Database ",error);
-}) // connecting to MongoDB 
+  })
+  .catch((error) => {
+    console.log("Unable to connect to Database ", error);
+  }); // connecting to MongoDB
 
-productRoutes(app)
-authRoutes(app)
-movieRoutes(app)
-theatreRoutes(app)
-bookingRoutes(app)
-paymentRoutes(app)
+productRoutes(app);
+authRoutes(app);
+movieRoutes(app);
+theatreRoutes(app);
+bookingRoutes(app);
+paymentRoutes(app);
